@@ -14,13 +14,13 @@ library(plyr)
 library(rvest)
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Function will ask you to enter API key
 gu_api_key()
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Searches content containing crime and security phrases between from data and to date
 request.crimesec <- gu_content(query = '"crime" AND "security"',
@@ -28,37 +28,37 @@ request.crimesec <- gu_content(query = '"crime" AND "security"',
                                to_date   = "2021-03-31")
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Gets the dimension of the data 
 dim(request.crimesec)
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Gets the names of the object (Guardian API)
 names(request.crimesec)
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Returns the data view (Guardian API)
 View (request.crimesec)
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Shows the headline of the 100th article (Guardian API)
 request.crimesec$headline[100]
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Shows the body text of the 100th article (Guardian API)
 request.crimesec$body_text[100]
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Gets articles from the technology section
 crimesec_tech <- request.crimesec[request.crimesec$section_id=="technology",]
@@ -68,13 +68,13 @@ dim(crimesec_tech)
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Prints the entire list of headlines from the technology section
 crimesec_tech$headline
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Creates a frequency table of how many articles came from each Guardian section
 sectioncounts <- table(request.crimesec$section_id)
@@ -83,7 +83,7 @@ sectioncounts <- table(request.crimesec$section_id)
 sectioncounts
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Barplot and Pie Chart
 # Number of observations per section using table()
@@ -93,8 +93,7 @@ sections_table <- table(request.crimesec$section_id)
 barplot(sections_table, main = "Number of Guardian Articles by Section", xlab = "Section", ylab = "Count")
 
 
-
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Convert table to data frame
 df <- as.data.frame(sections_table)
@@ -104,7 +103,7 @@ filtered_df <- df[df$Freq > 2, ]
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Plot pie chart if there are multiple sections
 if (nrow(filtered_df) > 0) {
@@ -113,7 +112,7 @@ if (nrow(filtered_df) > 0) {
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Task: Run multiple search queries for 6 months
 # Search queries for 6 months
@@ -143,7 +142,7 @@ my_query_dec <- gu_content(query = '"crime" AND "security"',
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Join the six variables
 guardian_query_six_months <- do.call(rbind.fill, list(my_query_july,
@@ -157,7 +156,7 @@ guardian_query_six_months <- do.call(rbind.fill, list(my_query_july,
 
 ### Task 2: Identifying patterns in retrieved text 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Examine the data for outliers in the article length
 guardian_query_six_months$word_count_converted <- as.numeric(as.character(guardian_query_six_months$wordcount))
@@ -167,7 +166,7 @@ plot(guardian_query_six_months$word_count_converted, main = "Word Count Distribu
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Calculate mean + 3 SD
 mean_val <- mean(guardian_query_six_months$word_count_converted, na.rm = TRUE)
@@ -176,7 +175,7 @@ mean_plus_3sd <- mean_val + 3 * sd_val
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Table of outliers
 table(guardian_query_six_months$word_count_converted > mean_plus_3sd)
@@ -190,7 +189,7 @@ guardian_query_six_months <- guardian_query_six_months[order(guardian_query_six_
 
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Plot the word count over time
 plot(guardian_query_six_months$date, guardian_query_six_months$word_count_converted,
@@ -199,7 +198,7 @@ plot(guardian_query_six_months$date, guardian_query_six_months$word_count_conver
      ylab = "Word Count")
 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Assess how the article frequency changes over time
 guardian_query_six_months$month <- format(guardian_query_six_months$date, "%Y-%m")
@@ -211,7 +210,7 @@ monthly_counts <- aggregate(id ~ month, data = guardian_query_six_months, FUN = 
 
 ### Task 3: Retrieving the HTML structure of a webpage using R 
 
-{r echo=FALSE}
+{r echo=FALSE, message=FALSE}
 
 # Set the base URL
 base_url <- "https://www.ucl.ac.uk/security-crime-science"

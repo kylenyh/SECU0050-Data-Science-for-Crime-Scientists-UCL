@@ -4,6 +4,8 @@ format: html
 editor: visual
 ---
 
+Week 1: Web Data Collection (APIs)
+
 ### Task 1: Building an access pipeline to The Guardian
 
 {r include=FALSE}
